@@ -1,16 +1,19 @@
-# - service: app
-#   command: whoami
-  
-# - service: app
-#   command: /bin/sh -c "cd ${HOME} && pwd"
-  
+- service: app
+  command: whoami
+
+- service: app
+  command: /bin/sh -c "ls -al ${HOME} | grep .ssh"
+
+- service: app
+  command: /bin/sh -c "ls -al ${HOME} | grep another-folder"
+
 - name: reinstate SSH Private Key File
   service: app
-  command: /bin/bash -c "echo -e $PRIVATE_SSH_KEY >> ${HOME}/.ssh/id_rsa"
+  command: /bin/bash -c "chmod 600 ${HOME}/.ssh && echo -e $PRIVATE_SSH_KEY >> ${HOME}/.ssh/id_rsa"
 
-- name: chmod id_rsa
-  service: app
-  command: /bin/bash -c "chmod 600 ${HOME}/.ssh/id_rsa"
+# - name: chmod id_rsa
+#   service: app
+#   command: /bin/bash -c "chmod 600 ${HOME}/.ssh/id_rsa"
 
 - name: add server to list of known hosts
   service: app
