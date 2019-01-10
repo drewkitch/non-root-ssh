@@ -6,4 +6,4 @@ app:
   volumes:
   # mapping to `.ssh` directory ensures that `id_rsa` file persists to subsequent steps
   # replace container pathing if $HOME is not `/root`
-    - ./.ssh:/non-root-user/.ssh
+    - .ssh:/home/non-root-user/.ssh

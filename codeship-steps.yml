@@ -1,16 +1,22 @@
+# - service: app
+#   command: whoami
+  
+# - service: app
+#   command: /bin/sh -c "cd ${HOME} && pwd"
+  
 - name: reinstate SSH Private Key File
   service: app
-  command: /bin/bash -c "echo -e $PRIVATE_SSH_KEY >> /non-root-user/.ssh/id_rsa"
+  command: /bin/bash -c "echo -e $PRIVATE_SSH_KEY >> ${HOME}/.ssh/id_rsa"
 
 - name: chmod id_rsa
   service: app
-  command: chmod 600 /non-root-user/.ssh/id_rsa
+  command: /bin/bash -c "chmod 600 ${HOME}/.ssh/id_rsa"
 
 - name: add server to list of known hosts
   service: app
-  command: /bin/bash -c "ssh-keyscan -H github.com >> /non-root-user/.ssh/known_hosts"
-
-# https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
-- name: confirm ssh connection to server, authenticating with generated public ssh key
-  service: app
-  command: /bin/bash -c "ssh -T git@github.com 2>&1 | grep 'successfully authenticated'"
+  command: /bin/bash -c "ssh-keyscan -H github.com >> ${HOME}/.ssh/known_hosts"
+#
+# # https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
+# - name: confirm ssh connection to server, authenticating with generated public ssh key
+#   service: app
+#   command: /bin/bash -c "ssh -T git@github.com 2>&1 | grep 'successfully authenticated'"
